@@ -28,10 +28,22 @@ namespace SvnBisect
             try
             {
                 var result = SvnBisect.Bisect(args);
-                var tempEnum = result.Result.OrderBy((x) => x.Key);
+                var revisions = result.Result;
+                var rev = result.revision;
+
+                var tempEnum = revisions.OrderBy((x) => x.Key);
                 foreach (var v in tempEnum)
                 {
                     Console.WriteLine(string.Format("result {0} : {1}", v.Key, v.Value ? "OK" : "NG"));
+                }
+
+                if(revisions.ContainsKey(rev))
+                {
+                    Console.WriteLine(string.Format("The revision is {0} : {1}", rev, revisions[rev] ? "OK" : "NG"));
+                }
+                else
+                {
+                    Console.WriteLine(string.Format("The revision is {0} : Oops", rev));
                 }
                 return 0;
             }
